@@ -26,6 +26,16 @@ public class SecurityConfigEx04 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
+        http
+        	.formLogin((formLogin) -> {})
+        	.authorizeHttpRequests((authorizeRequests) -> {
+        		/* ACL */
+        		authorizeRequests
+        			.anyRequest()
+        			.authenticated(); //로그인 여부 판단 (로그인 안 되어있으면 login 페이지로 리다이렉트 시킴)
+        		
+        	});
+    	
+    	return http.build();
     }
 }

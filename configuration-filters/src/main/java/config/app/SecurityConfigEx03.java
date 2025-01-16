@@ -26,6 +26,15 @@ public class SecurityConfigEx03 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
+        http
+        	.formLogin((formLogin) -> {})
+        	.httpBasic((httpBasic) -> {}) //톰캣 로그인 처럼 
+        	.authorizeHttpRequests((authorizeRequests) -> {
+        		/* Access Control List(ACL) */  //@Auth 에서 했던 작업들을 여기서!
+        		authorizeRequests
+        			.anyRequest().permitAll(); //다 통과시키기. 젤 마지막에 넣기. 이거 안 넣으면 에러남 
+        	});
+    	
+    	return http.build();
     }
 }
