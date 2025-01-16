@@ -27,6 +27,22 @@ public class SecurityConfigEx05 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
+    	http
+    	.formLogin((formLogin) -> {
+    		formLogin.loginPage("/user/login");
+    	})
+    	.authorizeHttpRequests((authorizeRequests) -> {
+    		/* ACL */
+    		authorizeRequests
+    			// ^/board/?(write|delete|modify|reply).*$ :아예 없어도 되고, 저 넷 중 하나가 오는 경우. 뒤에는 와도 되고 안 와도되고  
+    			.requestMatchers(new RegexRequestMatcher("^/board/?(write|delete|modify|reply).*$", null))//null : 메서드 상관 x
+				.authenticated()
+    			
+    			.anyRequest()
+				.permitAll(); //로그인 여부 판단 (로그인 안 되어있으면 login 페이지로 리다이렉트 시킴)
+    		
+    	});
+    	
+    	return http.build();
     }
 }
