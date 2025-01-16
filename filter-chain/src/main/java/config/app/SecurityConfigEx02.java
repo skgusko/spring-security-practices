@@ -1,4 +1,4 @@
-package config.web;
+package config.app;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,13 +18,14 @@ import filter.SecurityFilterEx04;
 @Configuration
 public class SecurityConfigEx02 {
 	@Bean
-	public FilterChainProxy securityFilterChainProxy() { //FilterChainProxy 빈 생성 
+	public FilterChainProxy springSecurityFilterChain() { //FilterChainProxy 빈 생성 
 		List<SecurityFilterChain> securityFilterChains = Arrays.asList(
 				new DefaultSecurityFilterChain(new AntPathRequestMatcher("/hello/**"), securityFilterEx01(), securityFilterEx02()),
 				new DefaultSecurityFilterChain(new AntPathRequestMatcher("/ping/**"), securityFilterEx03(), securityFilterEx04())
 		);
 		return new FilterChainProxy(securityFilterChains);
 	}
+	
     @Bean
     public SecurityFilterEx01 securityFilterEx01() {
         return new SecurityFilterEx01();
